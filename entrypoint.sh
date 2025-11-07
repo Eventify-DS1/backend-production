@@ -1,9 +1,13 @@
-#!/bin/sh
+#!/bin/bash
+
+# Exit on error
 set -e
 
-echo "Esperando a que la base de datos esté lista..."
+echo "Running database migrations..."
 python manage.py migrate --noinput
 
-echo "Migraciones aplicadas. Iniciando servidor..."
-exec "$@"
+echo "Collecting static files..."
+python manage.py collectstatic --noinput --clear
 
+echo "Starting application..."
+exec "$@"
